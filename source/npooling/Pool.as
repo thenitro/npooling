@@ -42,16 +42,12 @@ package npooling {
 			
 			if (subPool) {
 				if (subPool.inPool(pElement)) {
-					trace("Pool.put(pElement) duplicate: " + pElement);					
 					return;
 				}
 				
  				if (subPool.size < subPool.maxSize) {
 					subPool.put(pElement);
 				} else {
-					trace('Pool.put: not enough memory for ' 
-						+ pElement.reflection + ' ' + pElement + ' max is ' + subPool.maxSize + ' currentSize ' + subPool.size);
-					
 					pElement.dispose();
 					pElement = null;
 				}
