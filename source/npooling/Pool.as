@@ -36,7 +36,7 @@ package npooling {
 		};
 		
 		public function put(pElement:IReusable):void {
-			if (!pElement) return;
+			if (!pElement || pElement.disposed) return;
 			
 			var subPool:SubPool = _classes[pElement.reflection] as SubPool;
 			
