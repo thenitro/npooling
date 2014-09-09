@@ -1,6 +1,8 @@
 package npooling {
-	
-	import flash.errors.IllegalOperationError;
+
+    import com.thenitro.ngine.particles.abstract.particles.ImageParticle;
+
+    import flash.errors.IllegalOperationError;
 	import flash.utils.Dictionary;
 	
 	public final class Pool {
@@ -56,6 +58,7 @@ package npooling {
 					+ pElement + ' use Pool.allocate() first!');
 				
 				pElement.dispose();
+                pElement = null;
 			}
 		};
 		
@@ -63,8 +66,14 @@ package npooling {
 			var subPool:SubPool = _classes[pClass] as SubPool;
 			
 			if (subPool) {
-				if (subPool.size) {					
-					return subPool.get();
+				if (subPool.size) {
+                    var item:IReusable = subPool.get();
+
+                    if (item.disposed) {
+                        throw new Error('There is problem with pooling: a wild disposed object appears!');
+                    }
+
+					return item;
 				}
 			}
 			
