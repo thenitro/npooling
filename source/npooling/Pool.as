@@ -52,8 +52,8 @@ package npooling {
 					pElement = null;
 				}
 			} else {
-				trace('Pool.put: memory not allocated for class ' 
-					+ pElement.reflection + ' use Pool.allocate() first!');
+				trace('Pool.put: memory not allocated for '
+					+ pElement + ' use Pool.allocate() first!');
 				
 				pElement.dispose();
 			}
