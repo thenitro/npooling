@@ -1,5 +1,4 @@
 package npooling {
-
     import flash.errors.IllegalOperationError;
     import flash.utils.Dictionary;
 
