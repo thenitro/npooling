@@ -1,11 +1,9 @@
 package npooling {
 
-    import com.thenitro.ngine.particles.abstract.particles.ImageParticle;
-
     import flash.errors.IllegalOperationError;
-	import flash.utils.Dictionary;
-	
-	public final class Pool {
+    import flash.utils.Dictionary;
+
+    public final class Pool {
 		private static var _instance:Pool;
 		private static var _allowInstance:Boolean;
 		
