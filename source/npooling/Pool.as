@@ -23,7 +23,10 @@ package npooling {
 			
 			return _instance;
 		};
-		
+
+        /*
+            DEPRECATED
+         */
 		public function allocate(pClass:Class, pSize:uint):void {
 			var subPool:SubPool = _classes[pClass] as SubPool;
 			
@@ -59,22 +62,31 @@ package npooling {
 			}
 		};
 		
-		public function get(pClass:Class):IReusable {
+		public function get(pClass:Class, pAutoAllocate:Boolean = true):IReusable {
 			var subPool:SubPool = _classes[pClass] as SubPool;
-			
-			if (subPool) {
-				if (subPool.size) {
-                    var item:IReusable = subPool.get();
 
-                    if (item.disposed) {
-                        throw new Error('There is problem with pooling: a wild disposed object appears!');
-                    }
+            if (!subPool) {
+                if (pAutoAllocate) {
+                    allocate(pClass, 1);
+                    subPool = _classes[pClass] as SubPool;
+                } else {
+                    return null;
+                }
+            }
 
-					return item;
-				}
-			}
-			
-			return null;
+            var item:IReusable
+
+            if (subPool.size) {
+                item = subPool.get();
+
+                if (item.disposed) {
+                    throw new Error('There is problem with pooling: a wild disposed object appears!');
+                }
+            } else if (pAutoAllocate) {
+                item = new pClass();
+            }
+
+            return item;
 		};
 		
 		public function disposeClassInstances(pClass:Class):void {
