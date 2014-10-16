@@ -74,7 +74,7 @@ package npooling {
                 }
             }
 
-            var item:IReusable
+            var item:IReusable;
 
             if (subPool.size) {
                 item = subPool.get();
