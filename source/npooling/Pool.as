@@ -50,6 +50,8 @@ package npooling {
  				if (subPool.size < subPool.maxSize) {
 					subPool.put(pElement);
 				} else {
+                    trace('Pool.put: allocate more memory ' + pElement);
+
 					pElement.dispose();
 					pElement = null;
 				}
@@ -61,6 +63,12 @@ package npooling {
                 pElement = null;
 			}
 		};
+
+        public function size(pClass:Class):uint {
+			var subPool:SubPool = _classes[pClass] as SubPool;
+
+			return subPool ? subPool.size : 0;
+        }
 		
 		public function get(pClass:Class, pAutoAllocate:Boolean = true):IReusable {
 			var subPool:SubPool = _classes[pClass] as SubPool;
@@ -83,7 +91,8 @@ package npooling {
                     throw new Error('There is problem with pooling: a wild disposed object appears!');
                 }
             } else if (pAutoAllocate) {
-                item = new pClass();
+                allocate(pClass, 1);
+				item = new pClass();
             }
 
             return item;
