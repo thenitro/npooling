@@ -108,5 +108,14 @@ package npooling {
 					' not found in pool. Use allocate() method first!');
 			}
 		};
+
+		public function dispose():void {
+			for each (var subPool:SubPool in _classes) {
+				subPool.disposeInstances();
+			}
+
+			_classes  = null;
+			_instance = null;
+		}
 	};
 }
